@@ -1,9 +1,9 @@
 # Paymater on the Cronos zkEVM testnet
 
-- USDC on Sepolia(L1): https://sepolia.etherscan.io/address/0x768494eEE366D14d0d1D33a11023175DB80FB9A2
-  - it's a free mint token for testing purpose
-- USDC on Cronos zkEVM testnet(L2): https://zkevm-t0.cronos.org/explorer/address/0x7AD233FC8BC8Eb25b6CE7c0055b3e4226c3320d5
-- A sample Paymaster on Cronos zkEVM testnet(L2): https://zkevm-t0.cronos.org/explorer/address/0xB0Ee864E9859a785F34B9341eB5979699a117Ee0
+- [USDC on Sepolia(L1)](https://sepolia.etherscan.io/address/0x768494eEE366D14d0d1D33a11023175DB80FB9A2)
+  - it's a free mint token for testing purposes
+- [USDC on Cronos zkEVM testnet(L2)](https://zkevm-t0.cronos.org/explorer/address/0x7AD233FC8BC8Eb25b6CE7c0055b3e4226c3320d5)
+- [A sample Paymaster on Cronos zkEVM testnet(L2)](https://zkevm-t0.cronos.org/explorer/address/0xB0Ee864E9859a785F34B9341eB5979699a117Ee0)
   - Can be used to sponsor general transaction on L2, [an example TX](https://zkevm-t0.cronos.org/explorer/tx/0x1c12b30f8bfe0cc877e203ec9a5b7968827c4daa82e102a4a0304f1abbfc4416)
 
 
@@ -14,7 +14,7 @@
 
 [deploy-paymaster.ts](../deploy/00-deploy-paymaster.ts)
 
-Use this script to deploy a paymaster contract on Cronos zkEVM testnet, or you can use the pre-deployed one https://zkevm-t0.cronos.org/explorer/address/0xB0Ee864E9859a785F34B9341eB5979699a117Ee0
+Use this script to deploy a paymaster contract on Cronos zkEVM testnet, or you can use the [pre-deployed one](https://zkevm-t0.cronos.org/explorer/address/0xB0Ee864E9859a785F34B9341eB5979699a117Ee0)
 
 ```bash
 npm run 00-deploy-paymaster
@@ -40,7 +40,7 @@ Use this script to sponsor a transaction with paymaster
 npm run 02-use-erc20-paymaster
 ```
 
-# `.env`
+## `.env`
 
 an example `.env` file, fill in the `WALLET_PRIVATE_KEY`, this account need to have some CRO and USDC tokens on L2 in order to fund the paymaster contract & empty wallet.
 
