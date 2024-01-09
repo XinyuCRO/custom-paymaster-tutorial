@@ -4,6 +4,13 @@ import "@matterlabs/hardhat-zksync-deploy";
 import "@matterlabs/hardhat-zksync-solc";
 
 // dynamically changes endpoints for local tests
+
+const cronosZkEVMTestnet = {
+  url: "https://rpc-zkevm-t0.cronos.org",
+  ethNetwork: "sepolia",
+  zksync: true,
+}
+
 const zkSyncLocalTestnet =
   process.env.NODE_ENV == "test"
     ? {
@@ -25,12 +32,13 @@ const config: HardhatUserConfig = {
     version: "latest",
     settings: {},
   },
-  defaultNetwork: "zkSyncLocalTestnet",
+  defaultNetwork: "cronosZkEVMTestnet",
   networks: {
     hardhat: {
       zksync: false,
     },
-    zkSyncLocalTestnet
+    zkSyncLocalTestnet,
+    cronosZkEVMTestnet,
   },
   solidity: {
     compilers: [
