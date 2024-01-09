@@ -26,6 +26,7 @@
     "zksync-web3": "^0.14.3"
   },
   "scripts": {
+    "postinstall": "patch-package",
     "test": "NODE_ENV=test hardhat test",
     "deploy": "hardhat deploy-zksync",
     "deploy-erc20:local": "NODE_ENV=test hardhat deploy-zksync --script deploy-erc20-paymaster.ts",
