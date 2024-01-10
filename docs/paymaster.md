@@ -40,6 +40,21 @@ Use this script to sponsor a transaction with paymaster
 npm run 02-use-erc20-paymaster
 ```
 
+### Deploy Oracle Contract
+
+[03-deploy-oracle.ts](../deploy/03-deploy-oracle.ts)
+
+Use this script to deploy an oracle contract on Cronos zkEVM testnet
+
+### Update Oracle Price
+
+[04-update-oracle.ts](../deploy/04-update-oracle.ts)
+
+Use this script to update the oracle price to CRO/USD pair
+
+
+```bash
+
 ## `.env`
 
 an example `.env` file, fill in the `WALLET_PRIVATE_KEY`, this account need to have some CRO and USDC tokens on L2 in order to fund the paymaster contract & empty wallet.
