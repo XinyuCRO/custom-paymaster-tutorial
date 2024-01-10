@@ -33,7 +33,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
     throw new Error("The wallet is not empty!");
   }
 
-  console.log("Empty wallet don't have any CRO tokens on L2");
+  console.log("✅ Empty wallet don't have any CRO tokens on L2");
   
 
   console.log(
@@ -53,9 +53,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   const paymasterParams = utils.getPaymasterParams(PAYMASTER_ADDRESS, {
     type: "ApprovalBased",
     token: ERC20_TOKEN_ADDRESS,
-    // set minimalAllowance as we defined in the paymaster contract
-    minimalAllowance: ethers.BigNumber.from(1),
-    // empty bytes as testnet paymaster does not use innerInput
+    minimalAllowance: ethers.utils.parseEther("1"),
     innerInput: new Uint8Array(),
   });
 

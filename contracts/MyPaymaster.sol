@@ -9,10 +9,19 @@ import {TransactionHelper, Transaction} from "@matterlabs/zksync-contracts/l2/sy
 
 import "@matterlabs/zksync-contracts/l2/system-contracts/Constants.sol";
 
+interface IDIAOracleV2{
+    function getValue(string memory) external returns (uint128, uint128);
+}
+
 contract MyPaymaster is IPaymaster {
     uint256 constant PRICE_FOR_PAYING_FEES = 1;
+    string constant PRICE_KEY = "CRO/USD";
 
     address public allowedToken;
+
+    address public oracle;
+    uint128 public latestPrice; 
+    uint128 public timestampOflatestPrice; 
 
     modifier onlyBootloader() {
         require(
@@ -23,8 +32,14 @@ contract MyPaymaster is IPaymaster {
         _;
     }
 
-    constructor(address _erc20) {
+    constructor(address _erc20, address _oracle) {
         allowedToken = _erc20;
+        oracle = _oracle;
+    }
+
+    function getPriceInfo(string memory key) external returns (uint128, uint128) {
+        (latestPrice, timestampOflatestPrice) = IDIAOracleV2(oracle).getValue(key);
+        return (latestPrice, timestampOflatestPrice);
     }
 
     function validateAndPayForPaymasterTransaction(
@@ -66,19 +81,22 @@ contract MyPaymaster is IPaymaster {
             uint256 providedAllowance = IERC20(token).allowance(
                 userAddress,
                 thisAddress
-            );
-            require(
-                providedAllowance >= PRICE_FOR_PAYING_FEES,
-                "Min allowance too low"
-            );
-
+            );            
             // Note, that while the minimal amount of ETH needed is tx.gasPrice * tx.gasLimit,
             // neither paymaster nor account are allowed to access this context variable.
             uint256 requiredETH = _transaction.gasLimit *
-                _transaction.maxFeePerGas;
+            _transaction.maxFeePerGas;
+
+            (uint256 latestPrice, ) = this.getPriceInfo(PRICE_KEY);
+            uint256 requiredERC20 = requiredETH * latestPrice / 1e8; 
+
+            require(
+                providedAllowance >= requiredERC20,
+                "Min allowance too low"
+            );
 
             try
-                IERC20(token).transferFrom(userAddress, thisAddress, amount)
+                IERC20(token).transferFrom(userAddress, thisAddress, requiredERC20)
             {} catch (bytes memory revertReason) {
                 // If the revert reason is empty or represented by just a function selector,
                 // we replace the error with a more user-friendly message

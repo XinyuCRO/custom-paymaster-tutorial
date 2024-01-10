@@ -18,9 +18,11 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   if (!WALLET_PRIVATE_KEY) {
     throw new Error("Please put WALLET_PRIVATE_KEY in .env to specify the private key of the wallet that will deploy the contracts");
   }
+  
+  if (!EMPTY_WALLET_PRIVATE_KEY || !ERC20_TOKEN_ADDRESS || !PAYMASTER_ADDRESS) {
+    throw new Error("Please put EMPTY_WALLET_PRIVATE_KEY, ERC20_TOKEN_ADDRESS and PAYMASTER_ADDRESS in .env to specify the address of the empty wallet, the address of the ERC20 token and the address of the paymaster");
+  }
 
-  // The wallet that will deploy the token and the paymaster
-  // It is assumed that this wallet already has sufficient funds on zkSync
   let wallet = new Wallet(WALLET_PRIVATE_KEY);
   wallet = wallet.connect(provider);
   console.log(`Imported wallet's address: ${wallet.address}`);
@@ -34,7 +36,6 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 
   const deployer = new Deployer(hre, wallet);
 
-  // Deploying the ERC20 token
   const erc20Artifact = await deployer.loadArtifact("USDC");
   const contractFactory = ContractFactory.fromSolidity(erc20Artifact, wallet);
   const usdc = await contractFactory.attach(ERC20_TOKEN_ADDRESS);

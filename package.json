@@ -29,6 +29,7 @@
     "postinstall": "patch-package",
     "test": "NODE_ENV=test hardhat test",
     "deploy": "hardhat deploy-zksync",
+    "test-script": "NODE_ENV=test hardhat deploy-zksync --script test.ts",
     "00-deploy-paymaster": "NODE_ENV=test hardhat deploy-zksync --script 00-deploy-paymaster.ts",
     "01-fund-paymaster-and-wallet": "NODE_ENV=test hardhat deploy-zksync --script 01-fund-paymaster-and-wallet.ts",
     "02-use-erc20-paymaster": "NODE_ENV=test hardhat deploy-zksync --script 02-use-erc20-paymaster.ts",
